@@ -78,7 +78,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const planetsData = __webpack_require__(/*! ./data/planets.js */ \"./src/data/planets.js\");\nconst SolarSystem = __webpack_require__(/*! ./models/solar_system.js */ \"./src/models/solar_system.js\");\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('DOM Content Loaded');\n  const planetsDataModel = new SolarSystem(planetsData);\n  console.log(planetsDataModel.planets);\n});\n\n\n//# sourceURL=webpack:///./src/app.js?");
+eval("const planetsData = __webpack_require__(/*! ./data/planets.js */ \"./src/data/planets.js\");\nconst SolarSystem = __webpack_require__(/*! ./models/solar_system.js */ \"./src/models/solar_system.js\");\nconst MenuView = __webpack_require__(/*! ./views/menu_view.js */ \"./src/views/menu_view.js\")\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('DOM Content Loaded');\n  const planetsDataModel = new SolarSystem(planetsData);\n  console.log(planetsDataModel.planets);\n\n  const menuElement = document.querySelector('nav.planets-menu');\n  const menuView = new MenuView(menuElement);\n  menuView.bindEvents();\n});\n\n\n//# sourceURL=webpack:///./src/app.js?");
 
 /***/ }),
 
@@ -93,6 +93,17 @@ eval("const planets = [\n  {\n    name: 'Mercury',\n    orbit: 87.969,\n    day:
 
 /***/ }),
 
+/***/ "./src/helpers/pub_sub.js":
+/*!********************************!*\
+  !*** ./src/helpers/pub_sub.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("const PubSub = {\n\tpublish: function(channel, payload){\n\t\tconst event = new CustomEvent(channel, {\n\t\t\tdetail: payload\n\t\t});\n\t\tdocument.dispatchEvent(event);\n\t},\n\n\tsubscribe: function(channel, callback){\n\t\tdocument.addEventListener(channel, callback);\n\t}\n}\n\nmodule.exports = PubSub;\n\n\n//# sourceURL=webpack:///./src/helpers/pub_sub.js?");
+
+/***/ }),
+
 /***/ "./src/models/solar_system.js":
 /*!************************************!*\
   !*** ./src/models/solar_system.js ***!
@@ -101,6 +112,17 @@ eval("const planets = [\n  {\n    name: 'Mercury',\n    orbit: 87.969,\n    day:
 /***/ (function(module, exports) {
 
 eval("const SolarSystem = function(planets) {\n  this.planets = planets;\n};\n\nmodule.exports = SolarSystem;\n\n\n//# sourceURL=webpack:///./src/models/solar_system.js?");
+
+/***/ }),
+
+/***/ "./src/views/menu_view.js":
+/*!********************************!*\
+  !*** ./src/views/menu_view.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\nconst MenuView = function (menuElement) {\n  this.menuElement = menuElement;\n};\n\nMenuView.prototype.bindEvents = function () {\n  this.menuElement.addEventListener('click', (event) => {\n    console.log(event.target);\n  })\n};\n\nmodule.exports = MenuView;\n\n\n//# sourceURL=webpack:///./src/views/menu_view.js?");
 
 /***/ })
 
