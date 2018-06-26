@@ -78,7 +78,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const planetsData = __webpack_require__(/*! ./data/planets.js */ \"./src/data/planets.js\");\nconst SolarSystem = __webpack_require__(/*! ./models/solar_system.js */ \"./src/models/solar_system.js\");\nconst MenuView = __webpack_require__(/*! ./views/menu_view.js */ \"./src/views/menu_view.js\")\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('DOM Content Loaded');\n  const planetsDataModel = new SolarSystem(planetsData);\n  console.log(planetsDataModel.planets);\n\n  const menuElement = document.querySelector('nav.planets-menu');\n  const menuView = new MenuView(menuElement);\n  menuView.bindEvents();\n\n  planetsDataModel.bindEvents();\n\n});\n\n\n//# sourceURL=webpack:///./src/app.js?");
+eval("const planetsData = __webpack_require__(/*! ./data/planets.js */ \"./src/data/planets.js\");\nconst SolarSystem = __webpack_require__(/*! ./models/solar_system.js */ \"./src/models/solar_system.js\");\nconst MenuView = __webpack_require__(/*! ./views/menu_view.js */ \"./src/views/menu_view.js\")\nconst DetailsView = __webpack_require__(/*! ./views/details_view.js */ \"./src/views/details_view.js\")\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  console.log('DOM Content Loaded');\n  const planetsDataModel = new SolarSystem(planetsData);\n  console.log(planetsDataModel.planets);\n\n  const menuElement = document.querySelector('nav.planets-menu');\n  const menuView = new MenuView(menuElement);\n  menuView.bindEvents();\n\n  planetsDataModel.bindEvents();\n\n  const detailsElement = document.querySelector('section.planet-details');\n  const detailsView = new DetailsView(detailsElement);\n  detailsView.bindEvents();\n\n});\n\n\n//# sourceURL=webpack:///./src/app.js?");
 
 /***/ }),
 
@@ -111,7 +111,18 @@ eval("const PubSub = {\n\tpublish: function(channel, payload){\n\t\tconst event 
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\nconst SolarSystem = function(planets) {\n  this.planets = planets;\n};\n\nSolarSystem.prototype.bindEvents = function () {\n  PubSub.subscribe(\"MenuView:select\", (event) => {\n    console.log(event.detail);\n  });\n};\n\nmodule.exports = SolarSystem;\n\n\n//# sourceURL=webpack:///./src/models/solar_system.js?");
+eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\nconst SolarSystem = function(planets) {\n  this.planets = planets;\n};\n\nSolarSystem.prototype.bindEvents = function () {\n  PubSub.subscribe(\"MenuView:select\", (event) => {\n    const planetName = event.detail;\n    const planetToReturn = this.returnPlanetObject(planetName);\n\n    PubSub.publish(\"SolarSystem:send-planet\", planetToReturn);\n  });\n\n};\n\nSolarSystem.prototype.returnPlanetObject = function (planetName) {\n  for (const planet of this.planets) {\n      if (planet.name === planetName) {\n        return planet;\n      }\n  }\n};\n\nmodule.exports = SolarSystem;\n\n\n//# sourceURL=webpack:///./src/models/solar_system.js?");
+
+/***/ }),
+
+/***/ "./src/views/details_view.js":
+/*!***********************************!*\
+  !*** ./src/views/details_view.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\nconst DetailsView = function (detailsElement) {\n\n};\n\nDetailsView.prototype.bindEvents = function () {\n  PubSub.subscribe(\"SolarSystem:send-planet\", (event) => {\n    const planet = event.detail;\n    console.log(planet);\n  });\n};\n\nmodule.exports = DetailsView;\n\n\n//# sourceURL=webpack:///./src/views/details_view.js?");
 
 /***/ }),
 

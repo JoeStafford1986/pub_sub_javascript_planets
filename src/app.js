@@ -1,6 +1,7 @@
 const planetsData = require('./data/planets.js');
 const SolarSystem = require('./models/solar_system.js');
 const MenuView = require('./views/menu_view.js')
+const DetailsView = require('./views/details_view.js')
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM Content Loaded');
@@ -12,5 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   menuView.bindEvents();
 
   planetsDataModel.bindEvents();
+
+  const detailsElement = document.querySelector('section.planet-details');
+  const detailsView = new DetailsView(detailsElement);
+  detailsView.bindEvents();
 
 });
