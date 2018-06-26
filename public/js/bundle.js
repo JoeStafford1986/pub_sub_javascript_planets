@@ -122,7 +122,7 @@ eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/he
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\nconst DetailsView = function (detailsElement) {\n\n};\n\nDetailsView.prototype.bindEvents = function () {\n  PubSub.subscribe(\"SolarSystem:send-planet\", (event) => {\n    const planet = event.detail;\n    console.log(planet);\n  });\n};\n\nmodule.exports = DetailsView;\n\n\n//# sourceURL=webpack:///./src/views/details_view.js?");
+eval("const PubSub = __webpack_require__(/*! ../helpers/pub_sub.js */ \"./src/helpers/pub_sub.js\");\n\nconst DetailsView = function (detailsElement) {\n  this.detailsElement = detailsElement;\n};\n\nDetailsView.prototype.bindEvents = function () {\n  PubSub.subscribe(\"SolarSystem:send-planet\", (event) => {\n    const planet = event.detail;\n    this.render(planet);\n    console.log(planet);\n  });\n};\n\nDetailsView.prototype.render = function (planet) {\n  const infoParagraph = document.createElement('p');\n  infoParagraph.textContent = `The planet ${planet.name} has an orbit of ${planet.orbit}. It's day length is ${planet.day}. It's surface area is ${planet.surfaceArea}. It's volume is ${planet.volume}. It's gravity is ${planet.gravity}. It has ${planet.moons} moons.`\n\n  this.detailsElement.appendChild(infoParagraph);\n};\n\nmodule.exports = DetailsView;\n\n\n//# sourceURL=webpack:///./src/views/details_view.js?");
 
 /***/ }),
 
