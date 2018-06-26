@@ -6,7 +6,8 @@ const MenuView = function (menuElement) {
 
 MenuView.prototype.bindEvents = function () {
   this.menuElement.addEventListener('click', (event) => {
-    console.log(event.target);
+    const selectedId = event.target.id;
+    PubSub.publish("MenuView:select", selectedId);
   })
 };
 

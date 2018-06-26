@@ -10,4 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuElement = document.querySelector('nav.planets-menu');
   const menuView = new MenuView(menuElement);
   menuView.bindEvents();
+
+  planetsDataModel.bindEvents();
+
 });
